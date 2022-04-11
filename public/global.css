@@ -1,0 +1,29 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+h1 {
+    font-family: 'Nunito', sans-serif;
+    text-align: center;
+}
+img, video {
+    max-width: 20vw;
+    height: auto;
+    transition: all ease-in-out .12s;
+    box-shadow: 0 1px 10px #000;
+    cursor: pointer;
+}
+.grid {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 30px;
+}
+@media screen and (max-width: 650px) {
+    img, video {
+        max-width: 70vw;
+    }
+    .grid {
+        grid-template-columns: auto;
+    }
+}

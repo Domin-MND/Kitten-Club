@@ -9,7 +9,7 @@ const express = require('express'),
 app.use(limiter);
 app.use(require('compression')());
 app.use(require('serve-favicon')(__dirname + '/public/kitten.ico'));
-app.use(express.static(path.join(__dirname, "public"), { maxAge: 1000 * 60 * 60 * 24 * 30 * 12 }));
+app.use(express.static(path.join(__dirname, "public"), { maxAge: 60 * 60 * 24 * 365.24 * 1000 }));
 app.set('trust proxy', 1);
 app.set('view engine', 'ejs');
 
@@ -35,7 +35,7 @@ app.get('*', (req, res) => {
     fs.readdir(directory, (err, files) => {
         let converted = '';
         if (err) console.log(console.log('ERR: ', err));
-        let count = 1;
+        let count = 0;
         files = files.map(function (fileName) {
             return {
                 name: fileName,
@@ -50,8 +50,10 @@ app.get('*', (req, res) => {
         })
         .reverse() // Sort by descending date
         .forEach(file => {
-                converted += `<hr><img id="${count}" src="./content/kitten/${file}">`;
-                count++;
+            count++;
+            let link = `./content/kitten/${file}`
+            if (path.extname(file) == '.mp4') return converted += `<video id="${count}" src="${link}" controls></video>`
+            converted += `<a href="${link}" target=”_blank”><img id="${count}" src="${link}"></a>`;
         });
         res.status(200).render(__dirname + '/views/kitten', {content:converted});
     });

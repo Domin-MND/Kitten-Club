@@ -19,9 +19,10 @@ app.get('/api', (req, res) => {
     const directory = __dirname + '/public/content/kitten';
     fs.readdir(directory, (err, files) => {
         if (err) console.log(console.log('ERR: ', err));
-        let image = files[Math.floor(Math.random() * files.length)];
+        let random = Math.floor(Math.random() * files.length);
+        while (path.extname(files[random]) == '.mp4') random = Math.floor(Math.random() * files.length);
         res.send({
-            image: 'http://kitten.only-fans.club/content/kitten/' + image
+            image: 'http://kitten.only-fans.club/content/kitten/' + files[random]
         });
     });
 });
